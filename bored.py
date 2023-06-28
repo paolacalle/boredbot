@@ -10,13 +10,13 @@ attributes = ['type', 'price range', 'accessibility', 'participants']
 def get_type():
     types = [
         "education",
-        "recreational", 
-        "social", 
-        "diy", 
+        "recreational",
+        "social",
+        "diy",
         "charity",
-        "cooking", 
-        "relaxation", 
-        "music", 
+        "cooking",
+        "relaxation",
+        "music",
         "busywork"
     ]
     foundType = False
