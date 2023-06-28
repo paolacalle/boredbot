@@ -34,7 +34,8 @@ def save_activity(activity):
     )
     connection.execute(ins)
 
-def get_type(response = None):
+
+def get_type(response=None):
     types = [
         "education",
         "recreational",
@@ -65,7 +66,7 @@ def get_type(response = None):
 
 def get_price_range(selectedMin = -1, selectedMax = -1):
     foundMin = False
-    foundMax = False  
+    foundMax = False
 
     priceRange = "\nNote: 0 being free and 1 being the most expensive."
 
@@ -108,7 +109,7 @@ def get_accessibility(response = None):
             print(f"\nInput {selectedAR} is out of the range 0-1.")
 
 
-def get_participants():
+def get_participants(response = None):
     print("\nWhat is your desired number of participants? ")
     selectedParticipantNum = input().lower()
     participantURL = "participants=" + selectedParticipantNum
@@ -136,8 +137,9 @@ def get_opinion(response = None):
 
 def stay_switch(response = None):
     validResponse = False
-    while validResponse == False:
-        print("\n\nWould you like to stay in this same category or switch to a different one? (Stay or Switch)")
+    while validResponse is False:
+        print("\n\nWould you like to stay in this same category\
+                or switch to a different one? (Stay or Switch)")
         print("\nType \"display\" to see previous activities.\n")
         categoryResponse = input().lower()
 
