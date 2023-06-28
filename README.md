@@ -40,3 +40,5 @@ An activity tailored to user's preferences.
 * The program provides good outputs based on user input. 
 * The program does not crash and handles unexpected inputs.
 * It provides suggestions that match our preferences.
+
+[![Check Style](https://github.com/paolacalle/boredbot/actions/workflows/style.yaml/badge.svg)](https://github.com/paolacalle/boredbot/actions/workflows/style.yaml)
