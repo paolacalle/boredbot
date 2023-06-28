@@ -6,12 +6,12 @@ import sqlalchemy as db
 baseURL = "http://www.boredapi.com/api/activity?"
 attributes = ['type', 'price range', 'accessibility', 'participants']
 
+
 def get_type():
-    types = ["education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"]
+    types = ["education", "recreational", "social", "diy", "charity", "cooking", 
+            "relaxation", "music", "busywork"]
     foundType = False
-
-
-    while foundType == False:
+    while foundType is False:
         print("\nChoose one of the following types:\n")
 
         for item in types:
@@ -25,7 +25,8 @@ def get_type():
             return typeURL
         else: 
             print(f"\nSorry, but {selectedType} is an Invaild input!")
-    
+
+
 def get_price_range():
     foundMin = False
     foundMax = False
@@ -57,6 +58,7 @@ def get_price_range():
     priceURL = f"minprice={selectedMin}&maxprice={selectedMax}"
     return priceURL
 
+
 def get_accessibility():
     vaild = False
     print("\nRange 0-1, where 0 is least accessible and 1 is most accessible)")
@@ -71,6 +73,7 @@ def get_accessibility():
         else: 
             print(f"\nInput {selectedAR} is out of the range 0-1.")
 
+
 def get_participants():
     print("\nWhat is your desired number of participants? ")
     selectedParticipantNum = input().lower()
@@ -78,10 +81,11 @@ def get_participants():
     return participantURL
 
 
-#Displaying Dataframe 
+# Displaying Dataframe 
 def display_response(message):
-    df = pd.DataFrame.from_dict(message, orient= 'index')
+    df = pd.DataFrame.from_dict(message, orient='index')
     pprint.pprint(df)
+
 
 def get_opinion():
     print("\nWould you like another? (Yes or No)")
@@ -95,6 +99,7 @@ def get_opinion():
     else:
         return True 
 
+
 def stay_switch():
     vaildRespose = False
     while vaildRespose == False: 
@@ -107,6 +112,7 @@ def stay_switch():
             return True 
         else: 
             print(f"\nInvaild stay/switch input: {categoryResponse}")
+
 
 def call_attribute(attr): 
     if attr == "type": 
@@ -122,6 +128,7 @@ def call_attribute(attr):
 end = False 
 get_new_attr = True 
 atrr = ""
+
 
 while not end: 
     if get_new_attr:

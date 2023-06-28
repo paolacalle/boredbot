@@ -1,12 +1,16 @@
 {
   "coauthors": {
-    "JA": {
+    "pcalle": {
+      "name": "Paola Calle",
+      "email": "pcalle@smith.edu"
+    },
+    "bb": {
+      "name": "Barry Butterworth",
+      "email": "barry@butterworth.org"
+    },
+    "jayala2025": {
       "name": "Jose Ayala",
       "email": "jayala1@trinity.edu"
-    },
-    "pcalle": {
-      "name": "Paola Calle,
-      "email": "pcalle@smith.edu"
     }
   }
 }
