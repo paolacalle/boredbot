@@ -1,67 +1,87 @@
 import requests
-import pprint
+import pprint 
 import pandas as pd
 import sqlalchemy as db
 
 baseURL = "http://www.boredapi.com/api/activity?"
-attributes = ['type', 'price Range', 'accessibility', 'participants']
-
+attributes = ['type', 'price range', 'accessibility', 'participants']
 
 def get_type():
-    types = ["education", "recreational", "social", "diy", 
-            "charity", "cooking", "relaxation", "music", "busywork"]
-    print("\nChoose one of the following types: ")
-    for item in types:
-        print(item)
-    selectedType = input().lower()
+    types = ["education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"]
+    foundType = False
 
-    if selectedType in types:
-        typeURL = "type=" + selectedType
-        get_activity(typeURL)
+
+    while foundType == False:
+        print("\nChoose one of the following types:\n")
+
+        for item in types:
+            print(f"{item}")
+        print()
+
+        selectedType = input().lower()
+
+        if selectedType in types:
+            typeURL = "type=" + selectedType
+            return typeURL
+        else: 
+            print(f"\nSorry, but {selectedType} is an Invaild input!")
     
-
 def get_price_range():
-    # check that requests is valid especially with price ranges past 0.6
-    priceRange = "(0.00 being free and 1.00 being the most expensive)" 
+    foundMin = False
+    foundMax = False
+    selectedMin = -1
+    selectedMax = -1
 
-    print("\nWhat is your minimum price range for an activity?" + priceRange)
-    selectedMin = input().lower()
+    priceRange = "\nNote: 0 being free and 1 being the most expensive." 
 
-    print("\nWhat is your maximum price range for an activity?" + priceRange)
-    selectedMax = input().lower()
+    while foundMin == False:
+        print("\nWhat is your minimum price range for an activity?")
+        selectedMin = int(input())
 
-    priceURL = "minprice=" + selectedMin + "&maxprice=" + selectedMax
-    get_activity(priceURL)
+        if 0 <= selectedMin <= 1: 
+            foundMin = True
+        else: 
+            print("\nInvaild Input, range is 0-1.")
 
+    while foundMax == False:
+        print("\nWhat is your maximum price range for an activity?")
+        selectedMax = int(input())
+
+        if selectedMax < selectedMin:
+            print("\nMax can not be smaller then min.")
+        elif 0 <= selectedMax <= 1: 
+            foundMax = True
+        else:
+            print("\nInvaild Input, range is 0-1.")
+
+    priceURL = f"minprice={selectedMin}&maxprice={selectedMax}"
+    return priceURL
 
 def get_accessibility():
-    accesibilityRating = "(0.0 being the least accessible and 1.0 being the most accessible)"
+    vaild = False
+    print("\nRange 0-1, where 0 is least accessible and 1 is most accessible)")
 
-    print("\nWhat is your desired accesibility rating for an activity? " + accesibilityRating)
-    selectedAR = input().lower()
+    while vaild == False:
+        print("\nWhat is your desired accesibility rating for an activity?")
+        selectedAR = int(input())
 
-    accessbilityURL = "accessibility=" + selectedAR
-    get_activity(accessbilityURL)
-
+        if 0 <= selectedAR <= 1:
+            accessbilityURL = f"accessibility={selectedAR}"
+            return accessbilityURL
+        else: 
+            print(f"\nInput {selectedAR} is out of the range 0-1.")
 
 def get_participants():
-    participantRange = "(You can choose between 1-8 participants)"
-
-    print("\nWhat is your desired number of participants? " +participantRange)
+    print("\nWhat is your desired number of participants? ")
     selectedParticipantNum = input().lower()
-
     participantURL = "participants=" + selectedParticipantNum
-    get_activity(participantURL)
+    return participantURL
 
 
-def get_activity(url):
-    response = requests.get(baseURL + url)
-    if "error" in f"{response}": 
-        print("\nSorry, we do not have an activity the meets these requests.")
-    else:
-        message = response.json()
-        display_response(message)
-
+#Displaying Dataframe 
+def display_response(message):
+    df = pd.DataFrame.from_dict(message, orient= 'index')
+    pprint.pprint(df)
 
 def get_opinion():
     print("\nWould you like another? (Yes or No)")
@@ -75,55 +95,57 @@ def get_opinion():
     else:
         return True 
 
+def stay_switch():
+    vaildRespose = False
+    while vaildRespose == False: 
+        print("\n\nWould you like to stay in this same category or switch to a different one? (Stay or Switch)")
+        categoryResponse = input().lower()
 
-# Displaying Dataframe 
+        if categoryResponse == "stay":
+            return False
+        elif categoryResponse == "switch": 
+            return True 
+        else: 
+            print(f"\nInvaild stay/switch input: {categoryResponse}")
 
-
-def display_response(message):
-    df = pd.DataFrame.from_dict(message, orient= 'index')
-    pprint.pprint(df)
-
-    # print(f"\nActivity: {message['activity']}")
-    # print(f"Type: {message['type']}")
-    # print(f"Accessibility: {message['accessibility']}")
-    # print(f"Participants: {message['participants']}")
-    # print(f"Price: {message['price']}")   
-    
 def call_attribute(attr): 
     if attr == "type": 
-        get_type()
+        return get_type()
     elif attr == "price range": 
-        get_price_range()
+        return get_price_range()
     elif attr == "accessibility":
-        get_accessibility()
+        return get_accessibility()
     elif attr == "participants":
-        get_participants()
+        return get_participants()
 
 
-print(f"\nWhat attributes do you care about the most? {attributes}.")
-attr = input().lower()
 end = False 
-
+get_new_attr = True 
+atrr = ""
 
 while not end: 
+    if get_new_attr:
+        print(f"\nWhat attributes do you care about the most?\n\n{attributes}.\n\n")
+        attr = input().lower()
+
     if attr in attributes:
-        call_attribute(attr)
+        url = call_attribute(attr)
+        if url: 
+            response = requests.get(baseURL + url)
+            activity_dic = response.json()
 
-        end = get_opinion()
-    
-        if end == False:
-            print("\n\nWould you like to stay in this same category or switch to a different one? (Stay or Switch)")
-            categoryResponse = input().lower()
-            if categoryResponse == "Stay":
-                call_attribute(attr) 
-                
-            else:
-                print(f"\nWhat attributes do you care about the most? {attributes}")
-                attr = input().lower()
-                call_attribute(attr)
+            if "error" not in activity_dic: 
+                display_response(activity_dic)
+                end = get_opinion()
 
+                if end == False:
+                    get_new_attr = stay_switch()
+
+            else: 
+                print("\nSorry, we are unable to find an activity that matches this preference.")
+
+        else: 
+            print("\nUnable to find an activity that matches this preference.")
 
     else:
-        print("\nInput a valid attribute: (Type, Price Range, Accessibility, Participants)")
-        attr = input().lower()
-        call_attribute(attr)
+        print("\n\nInput a valid attribute")
