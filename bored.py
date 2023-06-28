@@ -8,8 +8,17 @@ attributes = ['type', 'price range', 'accessibility', 'participants']
 
 
 def get_type():
-    types = ["education", "recreational", "social", "diy", "charity",  
-             "cooking", "relaxation", "music", "busywork"]
+    types = [
+        "education",
+        "recreational", 
+        "social", 
+        "diy", 
+        "charity",
+        "cooking", 
+        "relaxation", 
+        "music", 
+        "busywork"
+    ]
     foundType = False
     while foundType is False:
         print("\nChoose one of the following types:\n")
@@ -103,7 +112,7 @@ def get_opinion():
 def stay_switch():
     vaildRespose = False
     while vaildRespose is False: 
-        print("\n\nWould you like to stay in this same "\
+        print("\n\nWould you like to stay in this same "
               "category or switch to a different one? (Stay or Switch)")
         categoryResponse = input().lower()
 
@@ -151,7 +160,8 @@ while not end:
                     get_new_attr = stay_switch()
 
             else: 
-                print("\nSorry, we are unable to find an activity that matches this preference.")
+                print("\nSorry, we are unable to find an activity "
+                      "that matches this preference.")
 
         else: 
             print("\nUnable to find an activity that matches this preference.")
