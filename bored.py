@@ -90,7 +90,7 @@ def get_participants():
     return participantURL
 
 
-# Displaying Dataframe 
+# Displaying Dataframe
 def display_response(message):
     df = pd.DataFrame.from_dict(message, orient='index')
     pprint.pprint(df)
