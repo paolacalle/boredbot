@@ -1,5 +1,5 @@
 import requests
-import pprint 
+import pprint
 import pandas as pd
 import sqlalchemy as db
 
@@ -8,8 +8,8 @@ attributes = ['type', 'price range', 'accessibility', 'participants']
 
 
 def get_type():
-    types = ["education", "recreational", "social", "diy", "charity", "cooking", 
-            "relaxation", "music", "busywork"]
+    types = ["education", "recreational", "social", "diy", "charity", 
+             "cooking", "relaxation", "music", "busywork"]
     foundType = False
     while foundType is False:
         print("\nChoose one of the following types:\n")
@@ -35,7 +35,7 @@ def get_price_range():
 
     priceRange = "\nNote: 0 being free and 1 being the most expensive." 
 
-    while foundMin == False:
+    while foundMin is False:
         print("\nWhat is your minimum price range for an activity?")
         selectedMin = int(input())
 
@@ -44,7 +44,7 @@ def get_price_range():
         else: 
             print("\nInvaild Input, range is 0-1.")
 
-    while foundMax == False:
+    while foundMax is False:
         print("\nWhat is your maximum price range for an activity?")
         selectedMax = int(input())
 
