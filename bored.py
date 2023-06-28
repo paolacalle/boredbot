@@ -42,15 +42,15 @@ def get_price_range():
     selectedMin = -1
     selectedMax = -1
 
-    priceRange = "\nNote: 0 being free and 1 being the most expensive." 
+    priceRange = "\nNote: 0 being free and 1 being the most expensive."
 
     while foundMin is False:
         print("\nWhat is your minimum price range for an activity?")
         selectedMin = int(input())
 
-        if 0 <= selectedMin <= 1: 
+        if 0 <= selectedMin <= 1:
             foundMin = True
-        else: 
+        else:
             print("\nInvaild Input, range is 0-1.")
 
     while foundMax is False:
@@ -59,7 +59,7 @@ def get_price_range():
 
         if selectedMax < selectedMin:
             print("\nMax can not be smaller then min.")
-        elif 0 <= selectedMax <= 1: 
+        elif 0 <= selectedMax <= 1:
             foundMax = True
         else:
             print("\nInvaild Input, range is 0-1.")
@@ -79,7 +79,7 @@ def get_accessibility():
         if 0 <= selectedAR <= 1:
             accessbilityURL = f"accessibility={selectedAR}"
             return accessbilityURL
-        else: 
+        else:
             print(f"\nInput {selectedAR} is out of the range 0-1.")
 
 
@@ -106,12 +106,12 @@ def get_opinion():
     if likeResponse == "yes":
         return False
     else:
-        return True 
+        return True
 
 
 def stay_switch():
     vaildRespose = False
-    while vaildRespose is False: 
+    while vaildRespose is False:
         print("\n\nWould you like to stay in this same "
               "category or switch to a different one? (Stay or Switch)")
         categoryResponse = input().lower()
@@ -119,15 +119,15 @@ def stay_switch():
         if categoryResponse == "stay":
             return False
         elif categoryResponse == "switch": 
-            return True 
-        else: 
+            return True
+        else:
             print(f"\nInvaild stay/switch input: {categoryResponse}")
 
 
-def call_attribute(attr): 
-    if attr == "type": 
+def call_attribute(attr):
+    if attr == "type":
         return get_type()
-    elif attr == "price range": 
+    elif attr == "price range":
         return get_price_range()
     elif attr == "accessibility":
         return get_accessibility()
@@ -135,12 +135,12 @@ def call_attribute(attr):
         return get_participants()
 
 
-end = False 
-get_new_attr = True 
+end = False
+get_new_attr = True
 atrr = ""
 
 
-while not end: 
+while not end:
     if get_new_attr:
         print(f"\nWhat attributes do you care about the most?\
         \n\n{attributes}.\n\n")
@@ -148,22 +148,22 @@ while not end:
 
     if attr in attributes:
         url = call_attribute(attr)
-        if url: 
+        if url:
             response = requests.get(baseURL + url)
             activity_dic = response.json()
 
-            if "error" not in activity_dic: 
+            if "error" not in activity_dic:
                 display_response(activity_dic)
                 end = get_opinion()
 
                 if end is False:
                     get_new_attr = stay_switch()
 
-            else: 
+            else:
                 print("\nSorry, we are unable to find an activity "
                       "that matches this preference.")
 
-        else: 
+        else:
             print("\nUnable to find an activity that matches this preference.")
 
     else:
