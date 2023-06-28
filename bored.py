@@ -64,7 +64,7 @@ def get_type(response=None):
             print(f"\nSorry, but {selectedType} is an Invaild input!")
 
 
-def get_price_range(selectedMin = -1, selectedMax = -1):
+def get_price_range(selectedMin=-1, selectedMax=-1):
     foundMin = False
     foundMax = False
 
@@ -94,7 +94,7 @@ def get_price_range(selectedMin = -1, selectedMax = -1):
     return priceURL
 
 
-def get_accessibility(response = None):
+def get_accessibility(response=None):
     vaild = False
     print("\nRange 0-1, where 0 is least accessible and 1 is most accessible)")
 
@@ -109,7 +109,7 @@ def get_accessibility(response = None):
             print(f"\nInput {selectedAR} is out of the range 0-1.")
 
 
-def get_participants(response = None):
+def get_participants(response=None):
     print("\nWhat is your desired number of participants? ")
     selectedParticipantNum = input().lower()
     participantURL = "participants=" + selectedParticipantNum
@@ -122,7 +122,7 @@ def display_response(message):
     pprint.pprint(df)
 
 
-def get_opinion(response = None):
+def get_opinion(response=None):
     print("\nWould you like another? (Yes or No)")
     likeResponse = input().lower()
 
@@ -135,7 +135,7 @@ def get_opinion(response = None):
         return True
 
 
-def stay_switch(response = None):
+def stay_switch(response=None):
     validResponse = False
     while validResponse is False:
         print("\n\nWould you like to stay in this same category\
@@ -152,6 +152,7 @@ def stay_switch(response = None):
         else:
             print("\nInvalid input.")
 
+
 def display_activities():
     select_query = db.select(activities_table)
     result_set = connection.execute(select_query)
@@ -161,6 +162,7 @@ def display_activities():
         print(f"\n\n{pd.DataFrame(activities).to_string(index=False)}\n\n")
     else:
         print("\nNo previous activities found.\n")
+
 
 def call_attribute(attr):
     if attr == "type":
