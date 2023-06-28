@@ -118,7 +118,7 @@ def stay_switch():
 
         if categoryResponse == "stay":
             return False
-        elif categoryResponse == "switch": 
+        elif categoryResponse == "switch":
             return True
         else:
             print(f"\nInvaild stay/switch input: {categoryResponse}")
