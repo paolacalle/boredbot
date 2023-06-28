@@ -8,8 +8,8 @@ attributes = ['type', 'price range', 'accessibility', 'participants']
 
 
 def get_type():
-    types = ["education", "recreational", "social", "diy", "charity", 
-             "cooking", "relaxation", "music", "busywork"]
+    types = ["education","recreational","social","diy","charity", 
+             "cooking","relaxation","music","busywork"]
     foundType = False
     while foundType is False:
         print("\nChoose one of the following types:\n")
@@ -63,7 +63,7 @@ def get_accessibility():
     vaild = False
     print("\nRange 0-1, where 0 is least accessible and 1 is most accessible)")
 
-    while vaild == False:
+    while vaild is False:
         print("\nWhat is your desired accesibility rating for an activity?")
         selectedAR = int(input())
 
@@ -102,8 +102,9 @@ def get_opinion():
 
 def stay_switch():
     vaildRespose = False
-    while vaildRespose == False: 
-        print("\n\nWould you like to stay in this same category or switch to a different one? (Stay or Switch)")
+    while vaildRespose is False: 
+        print("\n\nWould you like to stay in this same\
+               category or switch to a different one? (Stay or Switch)")
         categoryResponse = input().lower()
 
         if categoryResponse == "stay":
@@ -145,7 +146,7 @@ while not end:
                 display_response(activity_dic)
                 end = get_opinion()
 
-                if end == False:
+                if end is False:
                     get_new_attr = stay_switch()
 
             else: 
