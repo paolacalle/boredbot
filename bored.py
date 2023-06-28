@@ -6,8 +6,35 @@ import sqlalchemy as db
 baseURL = "http://www.boredapi.com/api/activity?"
 attributes = ['type', 'price range', 'accessibility', 'participants']
 
+# Database connection
+engine = db.create_engine('sqlite:///activities.db')
+connection = engine.connect()
+metadata = db.MetaData()
 
-def get_type():
+# Define the table structure
+activities_table = db.Table('activities', metadata,
+                            db.Column('id', db.Integer(), primary_key=True),
+                            db.Column('activity', db.String(255)),
+                            db.Column('type', db.String(255)),
+                            db.Column('price_range', db.String(255)),
+                            db.Column('accessibility', db.Float()),
+                            db.Column('participants', db.Integer())
+                            )
+metadata.create_all(engine)
+insert_query = activities_table.insert()
+
+
+def save_activity(activity):
+    ins = insert_query.values(
+        activity=activity['activity'],
+        type=activity['type'],
+        price_range=activity['price'],
+        accessibility=activity['accessibility'],
+        participants=activity['participants']
+    )
+    connection.execute(ins)
+
+def get_type(response = None):
     types = [
         "education",
         "recreational",
@@ -36,11 +63,9 @@ def get_type():
             print(f"\nSorry, but {selectedType} is an Invaild input!")
 
 
-def get_price_range():
+def get_price_range(selectedMin = -1, selectedMax = -1):
     foundMin = False
-    foundMax = False
-    selectedMin = -1
-    selectedMax = -1
+    foundMax = False  
 
     priceRange = "\nNote: 0 being free and 1 being the most expensive."
 
@@ -68,7 +93,7 @@ def get_price_range():
     return priceURL
 
 
-def get_accessibility():
+def get_accessibility(response = None):
     vaild = False
     print("\nRange 0-1, where 0 is least accessible and 1 is most accessible)")
 
@@ -96,7 +121,7 @@ def display_response(message):
     pprint.pprint(df)
 
 
-def get_opinion():
+def get_opinion(response = None):
     print("\nWould you like another? (Yes or No)")
     likeResponse = input().lower()
 
@@ -109,20 +134,31 @@ def get_opinion():
         return True
 
 
-def stay_switch():
-    vaildRespose = False
-    while vaildRespose is False:
-        print("\n\nWould you like to stay in this same "
-              "category or switch to a different one? (Stay or Switch)")
+def stay_switch(response = None):
+    validResponse = False
+    while validResponse == False:
+        print("\n\nWould you like to stay in this same category or switch to a different one? (Stay or Switch)")
+        print("\nType \"display\" to see previous activities.\n")
         categoryResponse = input().lower()
 
         if categoryResponse == "stay":
             return False
         elif categoryResponse == "switch":
             return True
+        elif categoryResponse == "display":
+            display_activities()
         else:
-            print(f"\nInvaild stay/switch input: {categoryResponse}")
+            print("\nInvalid input.")
 
+def display_activities():
+    select_query = db.select(activities_table)
+    result_set = connection.execute(select_query)
+    activities = result_set.fetchall()
+
+    if activities:
+        print(f"\n\n{pd.DataFrame(activities).to_string(index=False)}\n\n")
+    else:
+        print("\nNo previous activities found.\n")
 
 def call_attribute(attr):
     if attr == "type":
@@ -157,6 +193,7 @@ while not end:
                 end = get_opinion()
 
                 if end is False:
+                    save_activity(activity_dic)
                     get_new_attr = stay_switch()
 
             else:
@@ -168,3 +205,6 @@ while not end:
 
     else:
         print("\n\nInput a valid attribute")
+
+print("\n\nThank you for chatting with me. Activities:\n\n")
+display_activities()
