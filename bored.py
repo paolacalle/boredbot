@@ -32,7 +32,7 @@ def get_type():
         if selectedType in types:
             typeURL = "type=" + selectedType
             return typeURL
-        else: 
+        else:
             print(f"\nSorry, but {selectedType} is an Invaild input!")
 
 
