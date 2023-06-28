@@ -1,13 +1,15 @@
 import requests
-import pprint 
+import pprint
 import pandas as pd
 import sqlalchemy as db
 
 baseURL = "http://www.boredapi.com/api/activity?"
 attributes = ['type', 'price Range', 'accessibility', 'participants']
 
+
 def get_type():
-    types = ["education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"]
+    types = ["education", "recreational", "social", "diy", 
+            "charity", "cooking", "relaxation", "music", "busywork"]
     print("\nChoose one of the following types: ")
     for item in types:
         print(item)
@@ -17,6 +19,7 @@ def get_type():
         typeURL = "type=" + selectedType
         get_activity(typeURL)
     
+
 def get_price_range():
     # check that requests is valid especially with price ranges past 0.6
     priceRange = "(0.00 being free and 1.00 being the most expensive)" 
@@ -30,6 +33,7 @@ def get_price_range():
     priceURL = "minprice=" + selectedMin + "&maxprice=" + selectedMax
     get_activity(priceURL)
 
+
 def get_accessibility():
     accesibilityRating = "(0.0 being the least accessible and 1.0 being the most accessible)"
 
@@ -38,6 +42,7 @@ def get_accessibility():
 
     accessbilityURL = "accessibility=" + selectedAR
     get_activity(accessbilityURL)
+
 
 def get_participants():
     participantRange = "(You can choose between 1-8 participants)"
@@ -48,6 +53,7 @@ def get_participants():
     participantURL = "participants=" + selectedParticipantNum
     get_activity(participantURL)
 
+
 def get_activity(url):
     response = requests.get(baseURL + url)
     if "error" in f"{response}": 
@@ -55,6 +61,7 @@ def get_activity(url):
     else:
         message = response.json()
         display_response(message)
+
 
 def get_opinion():
     print("\nWould you like another? (Yes or No)")
@@ -69,7 +76,9 @@ def get_opinion():
         return True 
 
 
-#Displaying Dataframe 
+# Displaying Dataframe 
+
+
 def display_response(message):
     df = pd.DataFrame.from_dict(message, orient= 'index')
     pprint.pprint(df)
@@ -90,9 +99,11 @@ def call_attribute(attr):
     elif attr == "participants":
         get_participants()
 
+
 print(f"\nWhat attributes do you care about the most? {attributes}.")
 attr = input().lower()
 end = False 
+
 
 while not end: 
     if attr in attributes:
@@ -102,7 +113,7 @@ while not end:
     
         if end == False:
             print("\n\nWould you like to stay in this same category or switch to a different one? (Stay or Switch)")
-            categoryResponse = input().lower()               
+            categoryResponse = input().lower()
             if categoryResponse == "Stay":
                 call_attribute(attr) 
                 
