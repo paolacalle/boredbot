@@ -42,3 +42,4 @@ An activity tailored to user's preferences.
 * It provides suggestions that match our preferences.
 
 [![Check Style](https://github.com/paolacalle/boredbot/actions/workflows/style.yaml/badge.svg)](https://github.com/paolacalle/boredbot/actions/workflows/style.yaml)
+[![Tests](https://github.com/paolacalle/boredbot/actions/workflows/unit_test.yaml/badge.svg)](https://github.com/paolacalle/boredbot/actions/workflows/unit_test.yaml)
