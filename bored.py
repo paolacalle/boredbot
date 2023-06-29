@@ -35,7 +35,7 @@ def save_activity(activity):
     connection.execute(ins)
 
 
-def get_type(response=None):
+def get_type():
     types = [
         "education",
         "recreational",
@@ -61,10 +61,10 @@ def get_type(response=None):
             typeURL = "type=" + selectedType
             return typeURL
         else:
-            print(f"\nSorry, but {selectedType} is an Invaild input!")
+            print(f"\nSorry, but {selectedType} is an Invalid input!")
 
 
-def get_price_range(selectedMin=-1, selectedMax=-1):
+def get_price_range():
     foundMin = False
     foundMax = False
 
@@ -77,52 +77,52 @@ def get_price_range(selectedMin=-1, selectedMax=-1):
         if 0 <= selectedMin <= 1:
             foundMin = True
         else:
-            print("\nInvaild Input, range is 0-1.")
+            print("\nInvalid Input, range is 0-1.")
 
     while foundMax is False:
         print("\nWhat is your maximum price range for an activity?")
         selectedMax = int(input())
 
         if selectedMax < selectedMin:
-            print("\nMax can not be smaller then min.")
+            print("\nMax cannot be smaller than min.")
         elif 0 <= selectedMax <= 1:
             foundMax = True
         else:
-            print("\nInvaild Input, range is 0-1.")
+            print("\nInvalid Input, range is 0-1.")
 
     priceURL = f"minprice={selectedMin}&maxprice={selectedMax}"
     return priceURL
 
 
-def get_accessibility(response=None):
-    vaild = False
+def get_accessibility():
+    valid = False
     print("\nRange 0-1, where 0 is least accessible and 1 is most accessible)")
 
-    while vaild is False:
-        print("\nWhat is your desired accesibility rating for an activity?")
+    while valid is False:
+        print("\nWhat is your desired accessibility rating for an activity?")
         selectedAR = int(input())
 
         if 0 <= selectedAR <= 1:
-            accessbilityURL = f"accessibility={selectedAR}"
-            return accessbilityURL
+            accessibilityURL = f"accessibility={selectedAR}"
+            return accessibilityURL
         else:
             print(f"\nInput {selectedAR} is out of the range 0-1.")
 
 
-def get_participants(response=None):
+def get_participants():
     print("\nWhat is your desired number of participants? ")
     selectedParticipantNum = input().lower()
     participantURL = "participants=" + selectedParticipantNum
     return participantURL
 
 
-# Displaying Dataframe
+# Displaying DataFrame
 def display_response(message):
     df = pd.DataFrame.from_dict(message, orient='index')
     pprint.pprint(df)
 
 
-def get_opinion(response=None):
+def get_opinion():
     print("\nWould you like another? (Yes or No)")
     likeResponse = input().lower()
 
@@ -135,11 +135,11 @@ def get_opinion(response=None):
         return True
 
 
-def stay_switch(response=None):
+def stay_switch():
     validResponse = False
     while validResponse is False:
-        print("\n\nWould you like to stay in this same category\
-                or switch to a different one? (Stay or Switch)")
+        print("\n\nWould you like to stay in this same category "
+              "or switch to a different one? (Stay or Switch)")
         print("\nType \"display\" to see previous activities.\n")
         categoryResponse = input().lower()
 
@@ -175,40 +175,44 @@ def call_attribute(attr):
         return get_participants()
 
 
-end = False
-get_new_attr = True
-atrr = ""
+def run_program():
+    end = False
+    get_new_attr = True
+    attr = ""
 
+    while not end:
+        if get_new_attr:
+            print(f"\nWhat attributes do you care about the most?"
+                  f"\n\n{attributes}.\n\n")
+            attr = input().lower()
 
-while not end:
-    if get_new_attr:
-        print(f"\nWhat attributes do you care about the most?\
-        \n\n{attributes}.\n\n")
-        attr = input().lower()
+        if attr in attributes:
+            url = call_attribute(attr)
+            if url:
+                response = requests.get(baseURL + url)
+                activity_dic = response.json()
 
-    if attr in attributes:
-        url = call_attribute(attr)
-        if url:
-            response = requests.get(baseURL + url)
-            activity_dic = response.json()
+                if "error" not in activity_dic:
+                    display_response(activity_dic)
+                    end = get_opinion()
 
-            if "error" not in activity_dic:
-                display_response(activity_dic)
-                end = get_opinion()
+                    if end is False:
+                        save_activity(activity_dic)
+                        get_new_attr = stay_switch()
 
-                if end is False:
-                    save_activity(activity_dic)
-                    get_new_attr = stay_switch()
+                else:
+                    print("\nSorry, we are unable to find an activity "
+                          "that matches this preference.")
 
             else:
-                print("\nSorry, we are unable to find an activity "
-                      "that matches this preference.")
+                print("\nUnable to find an activity that matches this preference.")
 
         else:
-            print("\nUnable to find an activity that matches this preference.")
+            print("\n\nInput a valid attribute")
 
-    else:
-        print("\n\nInput a valid attribute")
+    print("\n\nThank you for chatting with me. Activities:\n\n")
+    display_activities()
 
-print("\n\nThank you for chatting with me. Activities:\n\n")
-display_activities()
+
+if __name__ == "__main__":
+    run_program()
