@@ -3,7 +3,8 @@ import requests
 from unittest.mock import patch
 from io import StringIO
 import sys
-from bored import get_type, get_price_range, get_accessibility, get_participants, get_opinion, stay_switch
+from bored import get_type, get_price_range, get_accessibility
+from bored import get_participants, get_opinion, stay_switch
 
 
 class unit_test(unittest.TestCase):
