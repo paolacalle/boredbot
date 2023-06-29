@@ -205,7 +205,8 @@ def run_program():
                           "that matches this preference.")
 
             else:
-                print("\nUnable to find an activity that matches this preference.")
+                print("\nUnable to find an activity\
+                        that matches this preference.")
 
         else:
             print("\n\nInput a valid attribute")
