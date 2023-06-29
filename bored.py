@@ -111,8 +111,7 @@ def get_accessibility():
 
 def get_participants():
     valid = False
-    
-    while valid is False: 
+    while valid is False:
         print("\nWhat is your desired number of participants? ")
         selectedParticipantNum = int(input())
 
