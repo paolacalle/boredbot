@@ -36,17 +36,7 @@ def save_activity(activity):
 
 
 def get_type():
-    types = [
-        "education",
-        "recreational",
-        "social",
-        "diy",
-        "charity",
-        "cooking",
-        "relaxation",
-        "music",
-        "busywork"
-    ]
+    types = ["education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"]
     foundType = False
     while foundType is False:
         print("\nChoose one of the following types:\n")
@@ -115,7 +105,7 @@ def get_participants():
         print("\nWhat is your desired number of participants? ")
         selectedParticipantNum = int(input())
 
-        if selectedParticipantNum <= 0: 
+        if selectedParticipantNum <= 0:
             print("\nYou need at least one participant.")
         else: 
             participantURL = f"participants={selectedParticipantNum}"
