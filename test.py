@@ -1,5 +1,4 @@
 import unittest
-import requests
 from unittest.mock import patch #https://docs.python.org/3/library/unittest.mock.html
 from io import StringIO
 import sys
