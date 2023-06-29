@@ -36,15 +36,17 @@ def save_activity(activity):
 
 
 def get_type():
-    types = ["education",
-             "recreational",
-             "social",
-             "diy",
-             "charity",
-             "cooking",
-             "relaxation",
-             "music",
-             "busywork"]
+    types = [
+        "education",
+        "recreational",
+        "social",
+        "diy",
+        "charity",
+        "cooking",
+        "relaxation",
+        "music",
+        "busywork"
+        ]
     foundType = False
     while foundType is False:
         print("\nChoose one of the following types:\n")
