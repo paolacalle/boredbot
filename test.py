@@ -5,10 +5,8 @@ from io import StringIO
 import sys
 from bored import get_type, get_price_range, get_accessibility, get_participants, get_opinion, stay_switch
 
-
 class unit_test(unittest.TestCase):
     
-
     @patch('builtins.input', side_effect=['education'])
     def test_get_type_vaild_input(self, mock_input):
         expected = 'type=education'
@@ -17,7 +15,6 @@ class unit_test(unittest.TestCase):
             result = get_type()
 
         self.assertEqual(result, expected)
-
         mock_input.assert_called_once_with()
 
 
@@ -25,13 +22,12 @@ class unit_test(unittest.TestCase):
     def test_get_type_invalid_input_then_valid_input(self, mock_input):
         expected = 'type=education'
 
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+        with patch('sys.stdout' , new=StringIO()) as mock_stdout:
             result = get_type()
             output = mock_stdout.getvalue().strip()
 
         self.assertEqual(result, expected)
         self.assertEqual(mock_input.call_count, 2)
-
         mock_input.assert_has_calls([unittest.mock.call(), unittest.mock.call()])
 
 
@@ -39,7 +35,7 @@ class unit_test(unittest.TestCase):
     def test_get_price_range_vaild_input(self, mock_input):
         expected = 'minprice=0&maxprice=1'
 
-        with patch ('sys.stdout', new=StringIO()) as mock_stdout:
+        with patch ('sys.stdout' , new=StringIO()) as mock_stdout:
             result = get_price_range()
 
         self.assertEqual(result, expected)
@@ -51,7 +47,7 @@ class unit_test(unittest.TestCase):
     def test_get_price_range_invaild_then_vaild_input(self, mock_input): 
         expected = 'minprice=0&maxprice=1'
 
-        with patch ('sys.stdout', new=StringIO()) as mock_stdout: 
+        with patch ('sys.stdout' , new=StringIO()) as mock_stdout: 
             result = get_price_range()
             output = mock_stdout.getvalue().strip()
 
@@ -60,7 +56,7 @@ class unit_test(unittest.TestCase):
         mock_input.assert_has_calls([unittest.mock.call(), unittest.mock.call(), unittest.mock.call(), unittest.mock.call()])
 
 
-    @patch('builtins.input', side_effect=['1'])
+    @patch('builtins.input' , side_effect=['1'])
     def test_get_accessibility_valid_input(self, mock_input):
         expected = 'accessibility=1'
 
@@ -151,7 +147,5 @@ class unit_test(unittest.TestCase):
         self.assertEqual(mock_input.call_count, 2)
         mock_input.assert_has_calls([unittest.mock.call(), unittest.mock.call()])
                 
-
 if __name__ == '__main__':
     unittest.main()
-
