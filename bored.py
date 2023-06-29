@@ -110,10 +110,17 @@ def get_accessibility():
 
 
 def get_participants():
-    print("\nWhat is your desired number of participants? ")
-    selectedParticipantNum = input().lower()
-    participantURL = "participants=" + selectedParticipantNum
-    return participantURL
+    valid = False
+    
+    while valid is False: 
+        print("\nWhat is your desired number of participants? ")
+        selectedParticipantNum = int(input())
+
+        if selectedParticipantNum <= 0: 
+            print("\nYou need at least one participant.")
+        else: 
+            participantURL = f"participants={selectedParticipantNum}"
+            return participantURL
 
 
 # Displaying DataFrame
